@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Church Connect",
+    "slug": "church-connect",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#1e3a8a"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "org.ieec.churchconnect",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Scan member QR cards for attendance check-in."
+      }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        { "cameraPermission": "Scan member QR cards for attendance check-in." }
+      ],
+      [
+        "expo-image-picker",
+        { "photosPermission": "Choose a profile photo." }
+      ],
+      "expo-notifications"
+    ],
+    "android": {
+      "package": "org.ieec.churchconnect"
+    },
+    "extra": {
+      "supabaseUrl": "https://jhkviljfvftzwtjrhblr.supabase.co",
+      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impoa3ZpbGpmdmZ0end0anJoYmxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NjUxNzMsImV4cCI6MjA5ODU0MTE3M30.jGEM8bUlZwI15y40KwJ7KQmJOG9vh7L_9VG4I_bapJk",
+      "publicRegistrationUrl": "https://dist-kohl-phi-41.vercel.app/register"
+    }
+  }
+}
