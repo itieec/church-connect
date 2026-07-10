@@ -21,9 +21,8 @@ stale; there is no `app/` directory.
 - Standard commands are in `package.json`: `npm run typecheck` (= `tsc --noEmit`),
   `npm run build:web` (= `expo export --platform web`). There is **no ESLint config and no test
   suite** in this repo.
-- `npm run typecheck` currently reports **3 pre-existing errors** in `src/components/ChurchMap.web.tsx`
-  (missing `leaflet` types + a `react-leaflet` prop-type mismatch). These are unrelated to setup — do
-  not treat them as regressions you introduced.
+- `npm run typecheck` passes clean. (`@types/leaflet` is a required dev dependency — without it the
+  `react-leaflet` map component in `src/components/ChurchMap.web.tsx` fails to type-check.)
 
 ### Backend gotchas (important for end-to-end testing)
 - **Auth requires email confirmation**, and the project uses Supabase's built-in email service, which
