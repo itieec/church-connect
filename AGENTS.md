@@ -25,20 +25,28 @@ stale; there is no `app/` directory.
   `react-leaflet` map component in `src/components/ChurchMap.web.tsx` fails to type-check.)
 
 ### Backend gotchas (important for end-to-end testing)
-- **Auth requires email confirmation**, and the project uses Supabase's built-in email service, which
-  has a very low hourly quota. Repeated sign-ups quickly return
-  `429 over_email_send_rate_limit` ("email rate limit exceeded"), and even a successful sign-up
-  cannot sign in until the emailed link is clicked. There is no inbox access from the VM.
-- The README's seeded logins (`test1@ieecya.test` … `test20@ieecya.test` / `Test1234!`) currently
-  fail on the live project with `500 "Database error querying schema"` on the password grant (the
-  seeded `auth.users` rows appear corrupt). Fresh sign-ins for *other* users return the normal
-  `email_not_confirmed`, so the token endpoint itself works — only these seeded rows are broken.
-- Anonymous public registration (`/register` route → insert into `newcomers`) is **RLS-blocked** on
-  the live project (the anon insert policy is on the old `new_comers` table, not `newcomers`).
-- Net effect: the frontend dev environment runs fully and reaches the backend (REST reads return
-  `200`), but **doing an authenticated or write action in-app needs owner intervention** — a working
-  confirmed+approved test login, a Supabase `service_role` key, or dashboard access to disable email
-  confirmation / repair the seeded users. Without that, only unauthenticated screens can be exercised.
+- **Working dev login:** `cc.agent.demo.329d@gmail.com` (password = the project's standard test
+  password, i.e. the same one the README lists for its seeded `@ieecya.test` accounts) — a confirmed +
+  approved `main_leader` account created on the live project for testing. Use it to sign in and
+  exercise authenticated flows (Home dashboard, My Profile edit, prayer requests, RSVPs, reports).
+- **Auth requires email confirmation** and the project uses Supabase's built-in email (very low hourly
+  quota), so self-service sign-up in the UI is unreliable: repeated sign-ups return
+  `429 over_email_send_rate_limit`, and a fresh sign-up can't sign in until the emailed link is
+  clicked (no inbox in the VM). To mint a *new* usable login, use the Auth Admin API with the
+  `service_role` key: `POST /auth/v1/admin/users` with `{"email":…,"password":…,"email_confirm":true}`,
+  then approve it via `PATCH /rest/v1/profiles?id=eq.<id>` `{"account_approved":true}` (optionally set
+  `role`). This bypasses email confirmation and the corrupt-seed problem below.
+- **The README's seeded logins are broken** (the `@ieecya.test` accounts, and the account behind the
+  `CHURCH_CONNECT_TEST_*` secret, `id 00000000-…-0001`). They return
+  `500 "Database error querying schema"` on the password grant — the seeded `auth.users` rows are
+  corrupt (NULL token columns), and even the Auth Admin API can't load them (`500`). They can only be
+  repaired with direct SQL / the DB password (not the `service_role` key). Newly created users work
+  fine, so the auth service itself is healthy.
+- **`newcomers` table divergence:** the app reads/writes `newcomers`, but on the live project that
+  table only has a *select* policy — **inserts are RLS-blocked (`403`) for both anon and authenticated
+  users**, so the in-app "Register Newcomer" / public `/register` flows fail against live (the insert
+  policy exists on the stale `new_comers` table instead). Reads, profile self-updates, and prayer
+  requests all work. Pick a write action other than newcomer registration for end-to-end demos.
 
 ### Dependency note
 - Install with `npm install --legacy-peer-deps` (plain `npm install` hits peer-dependency conflicts).
