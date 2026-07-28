@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
 import { useI18n } from '@/lib/i18n';
 import { Field, Button } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, type, spacing, radius, shadow, isIOS } from '@/theme';
 import { AuthStackParamList } from '@/navigation';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
@@ -54,26 +54,33 @@ export default function SignInScreen({ navigation }: Props) {
         >
           🌍 {lang === 'en' ? 'አማርኛ' : 'English'}
         </Text>
-        <Field
-          label={t('email')}
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          placeholder="you@example.com"
-        />
-        <Field
-          label={t('password')}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          placeholder="••••••••"
-        />
+
+        {/* Inputs sit in one grouped container — the native form pattern. */}
+        <View style={styles.fieldGroup}>
+          <Field
+            label={t('email')}
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            placeholder="you@example.com"
+          />
+          <Field
+            label={t('password')}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            placeholder="••••••••"
+            containerStyle={{ marginBottom: 0 }}
+          />
+        </View>
+
         <Button title={t('sign_in')} onPress={signIn} loading={loading} />
         <Button
-          title="Register as Newcomer →"
-          variant="outline"
+          title="Register as Newcomer"
+          variant="tinted"
           onPress={() => navigation.navigate('PublicRegister')}
+          style={{ marginTop: spacing.md }}
         />
         <Text style={styles.link} onPress={() => navigation.navigate('SignUp')}>
           {t('new_here')}
@@ -85,23 +92,44 @@ export default function SignInScreen({ navigation }: Props) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.primary },
-  header: { alignItems: 'center', paddingTop: 100, paddingBottom: 40 },
-  logo: { fontSize: 56 },
-  title: { fontSize: 28, fontWeight: '700', color: '#fff', marginTop: 8 },
-  subtitle: { fontSize: 14, color: '#c7d2fe', marginTop: 4 },
+  header: { alignItems: 'center', paddingTop: 88, paddingBottom: spacing.xxl },
+  logo: { fontSize: 52 },
+  title: {
+    ...type.largeTitle,
+    color: colors.white,
+    marginTop: spacing.md,
+  },
+  subtitle: {
+    ...type.subhead,
+    color: '#c7d2fe',
+    marginTop: spacing.xs,
+  },
   form: {
     flex: 1,
-    backgroundColor: colors.bg,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: 24,
+    backgroundColor: colors.groupedBg,
+    borderTopLeftRadius: isIOS ? 12 : 28,
+    borderTopRightRadius: isIOS ? 12 : 28,
+    padding: spacing.xl,
   },
-  link: { textAlign: 'center', color: colors.primary, marginTop: 20, fontWeight: '600' },
+  fieldGroup: {
+    backgroundColor: colors.rowBg,
+    borderRadius: radius.card,
+    padding: spacing.lg,
+    marginBottom: spacing.xl,
+    ...shadow(1),
+  },
+  link: {
+    ...type.callout,
+    textAlign: 'center',
+    color: colors.primary,
+    marginTop: spacing.xl,
+    fontWeight: '600',
+  },
   langToggle: {
+    ...type.footnote,
     textAlign: 'right',
     color: colors.primary,
     fontWeight: '600',
-    marginBottom: 8,
-    fontSize: 13,
+    marginBottom: spacing.md,
   },
 });

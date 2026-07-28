@@ -227,12 +227,20 @@ export function Button({
   );
 }
 
-export function Field(props: TextInputProps & { label: string; hint?: string }) {
-  const { label, hint, ...rest } = props;
+export function Field(
+  props: TextInputProps & {
+    label: string;
+    hint?: string;
+    /** Styles the wrapper. `style` still targets the TextInput itself. */
+    containerStyle?: StyleProp<ViewStyle>;
+  },
+) {
+  const { label, hint, containerStyle, style, ...rest } = props;
   return (
-    <View style={{ marginBottom: spacing.lg }}>
+    <View style={[{ marginBottom: spacing.lg }, containerStyle]}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput placeholderTextColor={colors.icon} style={styles.input} {...rest} />
+      {/* style is merged, not spread, so callers can tweak without losing the base look. */}
+      <TextInput placeholderTextColor={colors.icon} {...rest} style={[styles.input, style]} />
       {hint ? <Text style={styles.hint}>{hint}</Text> : null}
     </View>
   );
