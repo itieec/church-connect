@@ -13,6 +13,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field, StatusBadge } from '@/components/ui';
+import PermissionsTab from '@/components/PermissionsTab';
 import { colors } from '@/theme';
 import { Profile } from '@/types';
 
@@ -35,7 +36,7 @@ export default function AdminScreen() {
   const [teamName, setTeamName] = useState('');
   const [teamDesc, setTeamDesc] = useState('');
   const [saving, setSaving] = useState(false);
-  const [tab, setTab] = useState<'users' | 'audit'>('users');
+  const [tab, setTab] = useState<'users' | 'audit' | 'permissions'>('users');
 
   const load = useCallback(async () => {
     const [{ data: u }, { data: a }] = await Promise.all([
@@ -278,7 +279,9 @@ export default function AdminScreen() {
           [
             ['users', 'Users'],
             ['audit', 'Audit Log'],
-          ] as const
+          ] as ['users' | 'audit' | 'permissions', string][]
+        ).concat(
+          me?.role === 'super_admin' ? [['permissions', 'Permissions']] : [],
         ).map(([k, label]) => (
           <TouchableOpacity
             key={k}
@@ -366,6 +369,10 @@ export default function AdminScreen() {
             </Card>
           ))}
         </>
+      )}
+
+      {tab === 'permissions' && me?.role === 'super_admin' && (
+        <PermissionsTab />
       )}
 
       <Modal visible={showTeam} animationType="slide" transparent>
