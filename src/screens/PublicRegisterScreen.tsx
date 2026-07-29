@@ -46,22 +46,9 @@ export default function PublicRegisterScreen() {
       });
       if (error) { notify('Something went wrong', error.message); return; }
 
-      // Notify all follow-up leaders / assistant leaders
-      const { data: leaders } = await supabase
-        .from('profiles')
-        .select('id')
-        .in('follow_up_role', ['leader', 'assistant_leader']);
-      if (leaders && leaders.length > 0) {
-        await supabase.from('notifications').insert(
-          (leaders as { id: string }[]).map((l) => ({
-            user_id: l.id,
-            title: 'New Newcomer Registered',
-            message: `${firstName.trim()} ${lastName.trim()} registered and is awaiting follow-up.`,
-            type: 'newcomer_registered',
-            read: false,
-          })),
-        );
-      }
+      // Leaders are alerted and the 48h assignment clock starts in the
+      // newcomers_notify_leaders trigger, so every registration path behaves
+      // identically and anonymous visitors need no write access to notifications.
       setDone(true);
     } finally {
       setLoading(false);

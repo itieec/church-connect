@@ -35,6 +35,7 @@ export default function MoreScreen({ navigation }: Props) {
       title: 'Serving',
       items: [
         { icon: '🛠', label: t('more_teams'), sub: 'Teams, chat, serving schedule', target: 'Teams', show: true },
+        { icon: '🧭', label: 'Leadership', sub: 'Every leader across teams and groups', target: 'Leadership', show: true },
         { icon: '💵', label: t('more_contributions'), sub: 'Monthly giving records', target: 'Contributions', show: true },
       ],
     },

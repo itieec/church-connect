@@ -146,6 +146,7 @@ export function ListRow({
   sublabel,
   value,
   icon,
+  leading,
   onPress,
   chevron,
   destructive,
@@ -155,6 +156,8 @@ export function ListRow({
   sublabel?: string;
   value?: string;
   icon?: string;
+  /** Rendered before the label — for avatars or custom art, where `icon` takes a glyph. */
+  leading?: React.ReactNode;
   onPress?: () => void;
   chevron?: boolean;
   destructive?: boolean;
@@ -163,6 +166,7 @@ export function ListRow({
   const showChevron = chevron ?? !!onPress;
   return (
     <Touchable onPress={onPress} style={styles.row}>
+      {leading}
       {icon ? <Text style={styles.rowIcon}>{icon}</Text> : null}
       <View style={{ flex: 1 }}>
         <Text style={[styles.rowLabel, destructive && { color: colors.danger }]} numberOfLines={1}>

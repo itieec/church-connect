@@ -33,6 +33,7 @@ import ContributionsScreen from '@/screens/ContributionsScreen';
 import AnnouncementsScreen from '@/screens/AnnouncementsScreen';
 import MoreScreen from '@/screens/MoreScreen';
 import AdminScreen from '@/screens/AdminScreen';
+import LeadershipScreen from '@/screens/LeadershipScreen';
 import ReportsScreen from '@/screens/ReportsScreen';
 import PublicRegisterScreen from '@/screens/PublicRegisterScreen';
 import QRCodeScreen from '@/screens/QRCodeScreen';
@@ -81,6 +82,7 @@ export type MoreStackParamList = {
   Attendance: undefined;
   Teams: undefined;
   TeamDetail: { teamId: string };
+  Leadership: undefined;
   Contributions: undefined;
   Reports: undefined;
   Admin: undefined;
@@ -168,6 +170,11 @@ function MoreStackNav() {
       />
       <MStack.Screen name="Teams" component={TeamsScreen} options={{ title: 'Ministry Teams' }} />
       <MStack.Screen name="TeamDetail" component={TeamDetailScreen} options={{ title: 'Team' }} />
+      <MStack.Screen
+        name="Leadership"
+        component={LeadershipScreen}
+        options={{ title: 'Leadership' }}
+      />
       <MStack.Screen
         name="Contributions"
         component={ContributionsScreen}
