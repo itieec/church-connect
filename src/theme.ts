@@ -5,173 +5,158 @@ const ios = Platform.OS === 'ios';
 /**
  * Design tokens.
  *
- * The look is platform-adaptive rather than one style painted on both:
- * iOS follows the Human Interface Guidelines (grouped inset lists, SF type
- * scale, hairline separators), Android follows Material 3 (elevation, ripple,
- * full-bleed rows). The brand navy carries across both.
+ * Two ideas drive the palette. First, the old #1e3a8a/#3b82f6 pair was stock
+ * Tailwind blue — instantly recognisable as a default, so the navy is deepened
+ * and desaturated into ink. Second, there is exactly one accent (warm brass),
+ * and every neutral is tinted warm so the greys belong to one family rather
+ * than mixing cool and warm.
+ *
+ * Layout still adapts per platform: iOS gets grouped inset lists and hairline
+ * separators, Android gets Material elevation and ripple.
  */
+
+// ---------- Type families ----------
+
+/**
+ * Custom fonts do not synthesise weights reliably on Android, so each weight
+ * maps to its own loaded file and `fontWeight` is left unset.
+ * Amharic falls to Noto Sans Ethiopic — see `amharic` below.
+ */
+export const font = {
+  regular: 'PlusJakartaSans_400Regular',
+  medium: 'PlusJakartaSans_500Medium',
+  semibold: 'PlusJakartaSans_600SemiBold',
+  bold: 'PlusJakartaSans_700Bold',
+} as const;
+
+/** Ethiopic companion. Apply to text known to be Amharic. */
+export const amharic = {
+  regular: 'NotoSansEthiopic_400Regular',
+  medium: 'NotoSansEthiopic_500Medium',
+  semibold: 'NotoSansEthiopic_600SemiBold',
+  bold: 'NotoSansEthiopic_700Bold',
+} as const;
+
+/** Ethiopic codepoint range — used to pick the right family at runtime. */
+const ETHIOPIC = /[ሀ-፿]/;
+
+/** Returns the family that can actually render `text` at the given weight. */
+export function familyFor(text: string, weight: keyof typeof font = 'regular') {
+  return ETHIOPIC.test(text) ? amharic[weight] : font[weight];
+}
 
 // ---------- Palette ----------
 
-/** Apple system colors, light appearance. */
-const systemIOS = {
-  blue: '#007AFF',
-  green: '#34C759',
-  red: '#FF3B30',
-  orange: '#FF9500',
-  purple: '#AF52DE',
-  gray: '#8E8E93',
-  gray3: '#C7C7CC',
-  gray5: '#E5E5EA',
-  gray6: '#F2F2F7',
-  label: '#000000',
-  secondaryLabel: 'rgba(60,60,67,0.60)',
-  separator: 'rgba(60,60,67,0.29)',
-};
-
-/** Material 3 baseline, light scheme. */
-const systemAndroid = {
-  blue: '#1A73E8',
-  green: '#146C2E',
-  red: '#B3261E',
-  orange: '#E37400',
-  purple: '#6750A4',
-  gray: '#5F6368',
-  gray3: '#C4C7C5',
-  gray5: '#E3E3E3',
-  gray6: '#F7F9FC',
-  label: '#1B1B1F',
-  secondaryLabel: '#44474F',
-  separator: '#E1E2EC',
-};
-
-const sys = ios ? systemIOS : systemAndroid;
-
-/** Brand identity — constant across platforms. */
 export const brand = {
-  navy: '#1e3a8a',
-  navyLight: '#3b82f6',
+  /** Deepened, desaturated navy — ink rather than stock blue. */
+  navy: '#1B3055',
+  navyDeep: '#12213B',
+  navyLight: '#35548C',
+  /** The single accent. Warm brass keeps the navy from reading cold. */
+  brass: '#C2884A',
 };
 
-/**
- * Semantic colors.
- * Every key the existing screens already import is preserved.
- */
+/** Warm neutral ramp. One family, consistently tinted. */
+const neutral = {
+  n0: '#FFFFFF',
+  n50: '#F7F6F4',
+  n100: '#EFEDE9',
+  n200: '#E6E3DE',
+  n400: '#A8A39C',
+  n600: '#6F6B66',
+  n900: '#1A1A18',
+};
+
 export const colors = {
-  // — existing keys, kept so all screens keep working —
+  // — keys the screens already import —
   primary: brand.navy,
   primaryLight: brand.navyLight,
-  bg: sys.gray6,
-  card: '#ffffff',
-  text: sys.label,
-  muted: sys.secondaryLabel,
-  border: sys.separator,
-  success: sys.green,
-  warning: sys.orange,
-  danger: sys.red,
-  purple: sys.purple,
+  bg: neutral.n50,
+  card: neutral.n0,
+  text: neutral.n900,
+  muted: neutral.n600,
+  border: neutral.n200,
+  success: '#3F7D5C',
+  warning: brand.brass,
+  danger: '#A8473C',
+  purple: '#6B5B95',
 
   // — added —
-  /** Tint for interactive text/icons. iOS leans on system blue. */
-  tint: ios ? systemIOS.blue : brand.navy,
-  /** Page background behind grouped lists. */
-  groupedBg: sys.gray6,
-  /** Row background inside a grouped list. */
-  rowBg: '#ffffff',
-  /** Pressed-state overlay for iOS (Android uses ripple instead). */
-  highlight: sys.gray5,
-  /** Filled control that isn't the primary action. */
-  fill: ios ? 'rgba(120,120,128,0.12)' : systemAndroid.gray5,
-  separator: sys.separator,
-  icon: sys.gray,
-  white: '#ffffff',
+  accent: brand.brass,
+  tint: brand.navy,
+  groupedBg: neutral.n50,
+  rowBg: neutral.n0,
+  highlight: neutral.n100,
+  fill: neutral.n100,
+  separator: neutral.n200,
+  icon: neutral.n400,
+  white: neutral.n0,
 };
 
+/** Status hues, desaturated to sit alongside the warm neutrals. */
 export const statusColors: Record<string, string> = {
-  newcomer: sys.blue,
-  follow_up: sys.orange,
-  ready: ios ? '#FF9F0A' : '#E37400',
-  member: sys.purple,
-  minister: sys.green,
-  inactive: sys.gray,
+  newcomer: '#3B6CA8',
+  follow_up: brand.brass,
+  ready: '#B5713C',
+  member: '#6B5B95',
+  minister: '#3F7D5C',
+  inactive: '#8A8580',
 };
 
 // ---------- Typography ----------
 
 /**
- * Type scale. Named for the iOS text styles; the Android column carries
- * Material 3 sizing and its slightly positive label tracking.
- *
- * fontFamily is deliberately unset — the platform default (San Francisco /
- * Roboto) is exactly what "native" means here.
+ * Display sizes carry negative tracking so large text sets tightly; small
+ * labels track positive so they stay legible. Weight comes from `fontFamily`.
  */
 export const type = {
-  largeTitle: pick({ fontSize: 34, lineHeight: 41, fontWeight: '700', letterSpacing: 0.37 },
-                   { fontSize: 32, lineHeight: 40, fontWeight: '700' }),
-  title:      pick({ fontSize: 28, lineHeight: 34, fontWeight: '700', letterSpacing: 0.36 },
-                   { fontSize: 24, lineHeight: 32, fontWeight: '600' }),
-  title2:     pick({ fontSize: 22, lineHeight: 28, fontWeight: '700', letterSpacing: 0.35 },
-                   { fontSize: 22, lineHeight: 28, fontWeight: '600' }),
-  title3:     pick({ fontSize: 20, lineHeight: 25, fontWeight: '600', letterSpacing: 0.38 },
-                   { fontSize: 18, lineHeight: 24, fontWeight: '600' }),
-  /** Emphasised body — row titles, list headers. */
-  headline:   pick({ fontSize: 17, lineHeight: 22, fontWeight: '600', letterSpacing: -0.41 },
-                   { fontSize: 16, lineHeight: 24, fontWeight: '600', letterSpacing: 0.15 }),
-  body:       pick({ fontSize: 17, lineHeight: 22, fontWeight: '400', letterSpacing: -0.41 },
-                   { fontSize: 16, lineHeight: 24, fontWeight: '400', letterSpacing: 0.5 }),
-  callout:    pick({ fontSize: 16, lineHeight: 21, fontWeight: '400', letterSpacing: -0.32 },
-                   { fontSize: 15, lineHeight: 20, fontWeight: '400' }),
-  subhead:    pick({ fontSize: 15, lineHeight: 20, fontWeight: '400', letterSpacing: -0.24 },
-                   { fontSize: 14, lineHeight: 20, fontWeight: '400', letterSpacing: 0.25 }),
-  footnote:   pick({ fontSize: 13, lineHeight: 18, fontWeight: '400', letterSpacing: -0.08 },
-                   { fontSize: 13, lineHeight: 18, fontWeight: '400', letterSpacing: 0.25 }),
-  caption:    pick({ fontSize: 12, lineHeight: 16, fontWeight: '400' },
-                   { fontSize: 12, lineHeight: 16, fontWeight: '400', letterSpacing: 0.4 }),
-  /** Button labels. Material tracks these out; iOS does not. */
-  button:     pick({ fontSize: 17, lineHeight: 22, fontWeight: '600', letterSpacing: -0.41 },
-                   { fontSize: 14, lineHeight: 20, fontWeight: '500', letterSpacing: 0.1 }),
-};
+  largeTitle: { fontFamily: font.bold,     fontSize: 34, lineHeight: 40, letterSpacing: -0.8 },
+  title:      { fontFamily: font.bold,     fontSize: 28, lineHeight: 34, letterSpacing: -0.6 },
+  title2:     { fontFamily: font.bold,     fontSize: 22, lineHeight: 28, letterSpacing: -0.4 },
+  title3:     { fontFamily: font.semibold, fontSize: 19, lineHeight: 25, letterSpacing: -0.3 },
+  headline:   { fontFamily: font.semibold, fontSize: 16, lineHeight: 22, letterSpacing: -0.2 },
+  body:       { fontFamily: font.regular,  fontSize: 16, lineHeight: 23, letterSpacing: -0.1 },
+  callout:    { fontFamily: font.medium,   fontSize: 15, lineHeight: 21, letterSpacing: -0.1 },
+  subhead:    { fontFamily: font.regular,  fontSize: 14, lineHeight: 20 },
+  footnote:   { fontFamily: font.medium,   fontSize: 13, lineHeight: 18 },
+  caption:    { fontFamily: font.medium,   fontSize: 12, lineHeight: 16, letterSpacing: 0.2 },
+  /** Small uppercase section headers. */
+  overline:   { fontFamily: font.semibold, fontSize: 11, lineHeight: 14, letterSpacing: 0.8 },
+  button:     { fontFamily: font.semibold, fontSize: 16, lineHeight: 22, letterSpacing: -0.1 },
+} satisfies Record<string, TextStyle>;
 
-function pick(i: TextStyle, a: TextStyle): TextStyle {
-  return ios ? i : a;
-}
+/** Lines up digits in tables, totals and stat tiles. */
+export const tabular: TextStyle = { fontVariant: ['tabular-nums'] };
 
 // ---------- Metrics ----------
 
-export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 } as const;
+export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 40 } as const;
 
 export const radius = {
-  /** Grouped list containers and cards. */
-  card: ios ? 10 : 16,
-  /** Buttons. Material uses a full pill. */
-  button: ios ? 12 : 20,
-  field: ios ? 10 : 12,
+  card: 18,
+  button: 14,
+  field: 12,
   pill: 999,
 } as const;
 
-/** 1 physical pixel — the separator weight iOS actually uses. */
 export const hairline = StyleSheet.hairlineWidth;
-
-/** Minimum comfortable touch target (44pt iOS / 48dp Android). */
 export const touchTarget = ios ? 44 : 48;
-
-/** Leading inset for separators, so they align with row text rather than the edge. */
 export const separatorInset = ios ? 16 : 0;
 
 /**
- * Elevation. iOS gets a soft ambient shadow; Android uses the real
- * elevation prop so it picks up the system's shadow rendering.
+ * Shadows carry the brand hue rather than pure black, so elevation reads as
+ * light falling through the palette instead of a grey smudge.
  */
 export function shadow(level: 0 | 1 | 2 | 3 = 1): ViewStyle {
   if (level === 0) return {};
   if (!ios) return { elevation: level };
   const map = {
-    1: { radius: 3, y: 1, opacity: 0.08 },
-    2: { radius: 8, y: 2, opacity: 0.10 },
-    3: { radius: 16, y: 6, opacity: 0.14 },
+    1: { radius: 6, y: 2, opacity: 0.06 },
+    2: { radius: 14, y: 5, opacity: 0.09 },
+    3: { radius: 28, y: 12, opacity: 0.13 },
   }[level];
   return {
-    shadowColor: '#000',
+    shadowColor: brand.navyDeep,
     shadowOffset: { width: 0, height: map.y },
     shadowOpacity: map.opacity,
     shadowRadius: map.radius,

@@ -6,6 +6,7 @@ import {
   Pressable,
   StyleSheet,
   ActivityIndicator,
+  Animated,
   ScrollView,
   TextInputProps,
   ViewStyle,
@@ -15,6 +16,7 @@ import {
   colors,
   statusColors,
   type,
+  font,
   spacing,
   radius,
   hairline,
@@ -124,7 +126,7 @@ export function ListSection({
   const rows = React.Children.toArray(children).filter(Boolean);
   return (
     <View style={[{ marginBottom: spacing.xl }, style]}>
-      {title ? <Text style={styles.sectionHeader}>{isIOS ? title.toUpperCase() : title}</Text> : null}
+      {title ? <Text style={styles.sectionHeader}>{title}</Text> : null}
       <View style={styles.sectionBody}>
         {rows.map((row, i) => (
           <React.Fragment key={i}>
@@ -271,7 +273,10 @@ export function SegmentedControl<T extends string>({
             <Text
               style={[
                 type.footnote,
-                { fontWeight: active ? '600' : '400', color: active ? colors.text : colors.muted },
+                {
+                  fontFamily: active ? font.semibold : font.regular,
+                  color: active ? colors.text : colors.muted,
+                },
               ]}
               numberOfLines={1}
             >
@@ -341,6 +346,54 @@ export function Avatar({ name, size = 40 }: { name: string; size?: number }) {
   );
 }
 
+/** Pulsing placeholder block. Match it to the shape of what is loading. */
+export function Skeleton({
+  width = '100%',
+  height = 14,
+  style,
+}: {
+  width?: number | `${number}%`;
+  height?: number;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const pulse = React.useRef(new Animated.Value(0.4)).current;
+
+  React.useEffect(() => {
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulse, { toValue: 1, duration: 700, useNativeDriver: true }),
+        Animated.timing(pulse, { toValue: 0.4, duration: 700, useNativeDriver: true }),
+      ]),
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [pulse]);
+
+  return (
+    <Animated.View style={[styles.skeleton, { width, height, opacity: pulse }, style]} />
+  );
+}
+
+/** Stand-in for a list that has not loaded yet. */
+export function SkeletonList({ rows = 4 }: { rows?: number }) {
+  return (
+    <View style={styles.sectionBody}>
+      {Array.from({ length: rows }).map((_, i) => (
+        <React.Fragment key={i}>
+          <View style={styles.row}>
+            <Skeleton width={36} height={36} style={{ borderRadius: 12 }} />
+            <View style={{ flex: 1, gap: spacing.sm }}>
+              <Skeleton width="55%" height={13} />
+              <Skeleton width="80%" height={11} />
+            </View>
+          </View>
+          {i < rows - 1 && <Divider />}
+        </React.Fragment>
+      ))}
+    </View>
+  );
+}
+
 export function Empty({ text, icon }: { text: string; icon?: string }) {
   return (
     <View style={styles.empty}>
@@ -366,12 +419,11 @@ const styles = StyleSheet.create({
   divider: { height: hairline, backgroundColor: colors.separator },
 
   sectionHeader: {
-    ...type.footnote,
+    ...type.overline,
     color: colors.muted,
+    textTransform: 'uppercase',
     marginBottom: spacing.sm,
-    marginLeft: isIOS ? spacing.lg : 0,
-    letterSpacing: isIOS ? 0.6 : 0.1,
-    fontWeight: isIOS ? '500' : '600',
+    marginLeft: spacing.xs,
   },
   sectionBody: {
     backgroundColor: colors.rowBg,
@@ -457,15 +509,17 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     ...type.caption,
-    fontWeight: '600',
+    fontFamily: font.semibold,
     textTransform: 'capitalize',
   },
 
   avatar: {
-    backgroundColor: colors.primary + '1A',
+    backgroundColor: colors.primary + '14',
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  skeleton: { backgroundColor: colors.fill, borderRadius: radius.field },
 
   empty: { padding: spacing.xxl, alignItems: 'center' },
 });

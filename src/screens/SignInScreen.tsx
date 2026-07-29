@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
 import { useI18n } from '@/lib/i18n';
 import { Field, Button } from '@/components/ui';
-import { colors, type, spacing, radius, shadow, isIOS } from '@/theme';
+import { colors, type, font, familyFor, spacing, radius, shadow, isIOS } from '@/theme';
 import { AuthStackParamList } from '@/navigation';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
@@ -15,6 +15,7 @@ export default function SignInScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const nextLangLabel = lang === 'en' ? 'አማርኛ' : 'English';
 
   async function signIn() {
     const cleanEmail = email.trim().toLowerCase();
@@ -49,10 +50,10 @@ export default function SignInScreen({ navigation }: Props) {
       </View>
       <View style={styles.form}>
         <Text
-          style={styles.langToggle}
+          style={[styles.langToggle, { fontFamily: familyFor(nextLangLabel, 'semibold') }]}
           onPress={() => setLang(lang === 'en' ? 'am' : 'en')}
         >
-          🌍 {lang === 'en' ? 'አማርኛ' : 'English'}
+          🌍 {nextLangLabel}
         </Text>
 
         {/* Inputs sit in one grouped container — the native form pattern. */}
@@ -120,16 +121,15 @@ const styles = StyleSheet.create({
   },
   link: {
     ...type.callout,
+    fontFamily: font.semibold,
     textAlign: 'center',
     color: colors.primary,
     marginTop: spacing.xl,
-    fontWeight: '600',
   },
   langToggle: {
     ...type.footnote,
     textAlign: 'right',
     color: colors.primary,
-    fontWeight: '600',
     marginBottom: spacing.md,
   },
 });
