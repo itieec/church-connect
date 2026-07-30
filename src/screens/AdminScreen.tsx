@@ -14,7 +14,7 @@ import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field, StatusBadge } from '@/components/ui';
 import PermissionsTab from '@/components/PermissionsTab';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { Profile } from '@/types';
 
 interface AuditRow {
@@ -288,7 +288,7 @@ export default function AdminScreen() {
             onPress={() => setTab(k)}
             style={[styles.tabPill, tab === k && styles.tabActive]}
           >
-            <Text style={{ color: tab === k ? '#fff' : colors.text, fontWeight: '600' }}>
+            <Text style={{ color: tab === k ? '#fff' : colors.text, fontFamily: font.semibold }}>
               {label}
             </Text>
           </TouchableOpacity>
@@ -319,7 +319,7 @@ export default function AdminScreen() {
                     </View>
                     {canApprove ? (
                       <TouchableOpacity onPress={() => approveAccount(u)} style={styles.approveBtn}>
-                        <Text style={{ color: '#fff', fontWeight: '700', fontSize: 12 }}>
+                        <Text style={{ color: '#fff', fontFamily: font.bold, fontSize: 12 }}>
                           ✓ Approve
                         </Text>
                       </TouchableOpacity>
@@ -391,7 +391,7 @@ export default function AdminScreen() {
 }
 
 const styles = StyleSheet.create({
-  sectionTitle: { fontSize: 16, fontWeight: '700', color: colors.text, marginBottom: 10 },
+  sectionTitle: { fontSize: 16, fontFamily: font.bold, color: colors.text, marginBottom: 10 },
   roleWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   roleChip: {
     backgroundColor: colors.bg,
@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     gap: 12,
   },
-  name: { fontSize: 15, fontWeight: '600', color: colors.text },
+  name: { fontSize: 15, fontFamily: font.semibold, color: colors.text },
   meta: { fontSize: 12, color: colors.muted, marginTop: 2 },
   modalWrap: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
   modal: {
@@ -440,5 +440,5 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 4,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
 });

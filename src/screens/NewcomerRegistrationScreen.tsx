@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Field, Button } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { FollowUpStackParamList } from '@/navigation';
 
 type Props = NativeStackScreenProps<FollowUpStackParamList, 'NewcomerRegistration'>;
@@ -148,8 +148,8 @@ export default function NewcomerRegistrationScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  welcome: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 16 },
-  label: { fontSize: 13, fontWeight: '600', color: colors.muted, marginBottom: 6 },
+  welcome: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 16 },
+  label: { fontSize: 13, fontFamily: font.semibold, color: colors.muted, marginBottom: 6 },
   row: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 16 },
   pill: {
     paddingHorizontal: 14,

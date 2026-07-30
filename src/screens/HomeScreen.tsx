@@ -12,7 +12,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { Card, StatusBadge } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 interface Stats {
   newcomers: number;
@@ -221,7 +221,7 @@ export default function HomeScreen() {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={styles.sectionTitle}>🗓 Upcoming Events</Text>
             <Text
-              style={{ color: colors.primary, fontWeight: '600', fontSize: 13 }}
+              style={{ color: colors.primary, fontFamily: font.semibold, fontSize: 13 }}
               onPress={() => navigation.navigate('More', { screen: 'Events', initial: false })}
             >
               See all ›
@@ -233,7 +233,7 @@ export default function HomeScreen() {
               style={styles.annRow}
               onPress={() => navigation.navigate('More', { screen: 'Events', initial: false })}
             >
-              <Text style={{ fontWeight: '700', color: colors.text }}>{ev.title}</Text>
+              <Text style={{ fontFamily: font.bold, color: colors.text }}>{ev.title}</Text>
               <Text style={{ color: colors.muted, fontSize: 13, marginTop: 2 }}>
                 {ev.event_date}
                 {ev.event_time ? ` · ${ev.event_time}` : ''}
@@ -249,7 +249,7 @@ export default function HomeScreen() {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={styles.sectionTitle}>📢 Announcements</Text>
             <Text
-              style={{ color: colors.primary, fontWeight: '600', fontSize: 13 }}
+              style={{ color: colors.primary, fontFamily: font.semibold, fontSize: 13 }}
               onPress={() =>
                 navigation.navigate('More', { screen: 'Announcements', initial: false })
               }
@@ -259,7 +259,7 @@ export default function HomeScreen() {
           </View>
           {announcements.map((a) => (
             <View key={a.id} style={styles.annRow}>
-              <Text style={{ fontWeight: '700', color: colors.text }}>{a.title}</Text>
+              <Text style={{ fontFamily: font.bold, color: colors.text }}>{a.title}</Text>
               {a.body ? (
                 <Text style={{ color: colors.muted, fontSize: 13 }} numberOfLines={2}>
                   {a.body}
@@ -290,11 +290,11 @@ export default function HomeScreen() {
           )}
           {stale.map((s) => (
             <TouchableOpacity key={s.id} style={styles.staleRow} onPress={() => openNewcomer(s.id)}>
-              <Text style={{ flex: 1, color: colors.text, fontWeight: '600' }}>
+              <Text style={{ flex: 1, color: colors.text, fontFamily: font.semibold }}>
                 {s.full_name}
                 {s.mine ? '  (yours)' : ''}
               </Text>
-              <Text style={{ color: colors.danger, fontSize: 12, fontWeight: '700' }}>
+              <Text style={{ color: colors.danger, fontSize: 12, fontFamily: font.bold }}>
                 {s.daysSince == null ? 'never followed up' : `${s.daysSince}d ago`}
               </Text>
             </TouchableOpacity>
@@ -323,7 +323,7 @@ export default function HomeScreen() {
 
       <Card>
         <Text style={styles.sectionTitle}>📍 Find Us</Text>
-        <Text style={{ color: colors.text, fontWeight: '600', marginBottom: 2 }}>
+        <Text style={{ color: colors.text, fontFamily: font.semibold, marginBottom: 2 }}>
           7930 Eastern Avenue NW
         </Text>
         <Text style={{ color: colors.muted, fontSize: 13, marginBottom: 4 }}>
@@ -346,7 +346,7 @@ function StatCard({ label, value, color }: { label: string; value: number; color
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
-  greeting: { fontSize: 20, fontWeight: '700', color: colors.text },
+  greeting: { fontSize: 20, fontFamily: font.bold, color: colors.text },
   roleText: { color: colors.muted, marginTop: 8, textTransform: 'capitalize' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 12 },
   stat: {
@@ -358,9 +358,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
-  statValue: { fontSize: 28, fontWeight: '800', color: colors.text },
+  statValue: { fontSize: 28, fontFamily: font.bold, color: colors.text },
   statLabel: { fontSize: 12, color: colors.muted, marginTop: 2 },
-  sectionTitle: { fontSize: 16, fontWeight: '700', color: colors.text, marginBottom: 8 },
+  sectionTitle: { fontSize: 16, fontFamily: font.bold, color: colors.text, marginBottom: 8 },
   alertLine: { color: colors.text, fontSize: 13, marginBottom: 4 },
   annRow: {
     paddingVertical: 8,
@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
     width: '22.7%',
     minWidth: 76,
   },
-  quickLabel: { fontSize: 11, fontWeight: '600', color: colors.text, marginTop: 4 },
+  quickLabel: { fontSize: 11, fontFamily: font.semibold, color: colors.text, marginTop: 4 },
   staleRow: {
     flexDirection: 'row',
     alignItems: 'center',

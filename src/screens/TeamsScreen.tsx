@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { supabase } from '@/lib/supabase';
 import { useUnread } from '@/lib/useUnread';
 import { Empty } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { Team } from '@/types';
 import { MoreStackParamList } from '@/navigation';
 
@@ -69,7 +69,7 @@ export default function TeamsScreen({ navigation }: Props) {
             </View>
             {(unread.perGroup[`team:${item.id}`] ?? 0) > 0 && (
               <View style={styles.unreadBadge}>
-                <Text style={{ color: '#fff', fontSize: 11, fontWeight: '700' }}>
+                <Text style={{ color: '#fff', fontSize: 11, fontFamily: font.bold }}>
                   {unread.perGroup[`team:${item.id}`]}
                 </Text>
               </View>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     gap: 12,
   },
-  name: { fontSize: 16, fontWeight: '600', color: colors.text },
+  name: { fontSize: 16, fontFamily: font.semibold, color: colors.text },
   meta: { fontSize: 12, color: colors.muted, marginTop: 2 },
   unreadBadge: {
     backgroundColor: colors.danger,

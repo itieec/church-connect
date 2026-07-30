@@ -11,7 +11,7 @@ import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Field, Empty, Button } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { Profile } from '@/types';
 
 const SERVICE_TYPES = ['saturday_program', 'sunday_service', 'bible_study', 'g5', 'other'] as const;
@@ -151,6 +151,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   rowPresent: { borderColor: colors.success, backgroundColor: '#f0fdf4' },
-  name: { fontSize: 15, fontWeight: '600', color: colors.text },
+  name: { fontSize: 15, fontFamily: font.semibold, color: colors.text },
   meta: { fontSize: 12, color: colors.muted, textTransform: 'capitalize' },
 });

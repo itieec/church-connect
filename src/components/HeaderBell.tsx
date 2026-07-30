@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { useUnread } from '@/lib/useUnread';
 import { navigationRef } from '@/navigation';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 /** Bell icon shown in every header. Badge = unread chats + new announcements + leader queues. */
 export default function HeaderBell() {
@@ -100,5 +100,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 4,
   },
-  badgeText: { color: '#fff', fontSize: 10, fontWeight: '800' },
+  badgeText: { color: '#fff', fontSize: 10, fontFamily: font.bold },
 });

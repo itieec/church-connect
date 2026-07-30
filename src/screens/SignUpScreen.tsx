@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
 import { Field, Button } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { AuthStackParamList } from '@/navigation';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
@@ -82,7 +82,7 @@ export default function SignUpScreen({ navigation }: Props) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
-  title: { fontSize: 28, fontWeight: '700', color: colors.text },
+  title: { fontSize: 28, fontFamily: font.bold, color: colors.text },
   subtitle: { fontSize: 15, color: colors.muted, marginTop: 4 },
-  link: { textAlign: 'center', color: colors.primary, marginTop: 20, fontWeight: '600' },
+  link: { textAlign: 'center', color: colors.primary, marginTop: 20, fontFamily: font.semibold },
 });

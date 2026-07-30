@@ -3,7 +3,7 @@ import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { supabase } from '@/lib/supabase';
 import { Card, Empty } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 interface AttRow {
   service_date: string;
@@ -171,7 +171,7 @@ export default function ReportsScreen() {
             <Text style={styles.listLabel}>
               {d.icon} {d.label}
             </Text>
-            <Text style={[styles.listValue, { fontWeight: '800', color: colors.text }]}>
+            <Text style={[styles.listValue, { fontFamily: font.bold, color: colors.text }]}>
               {d.value}
             </Text>
           </View>
@@ -271,7 +271,7 @@ export default function ReportsScreen() {
 }
 
 const styles = StyleSheet.create({
-  sectionTitle: { fontSize: 16, fontWeight: '700', color: colors.text, marginBottom: 10 },
+  sectionTitle: { fontSize: 16, fontFamily: font.bold, color: colors.text, marginBottom: 10 },
   chipWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   chip: {
     backgroundColor: colors.bg,
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
   barLabel: { fontSize: 11, color: colors.muted, width: 150 },
   barTrack: { flex: 1, height: 14, backgroundColor: colors.bg, borderRadius: 7, overflow: 'hidden' },
   bar: { height: 14, backgroundColor: colors.primaryLight, borderRadius: 7 },
-  barValue: { fontSize: 12, fontWeight: '700', color: colors.text, width: 26, textAlign: 'right' },
+  barValue: { fontSize: 12, fontFamily: font.bold, color: colors.text, width: 26, textAlign: 'right' },
   listRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-  listLabel: { color: colors.text, fontWeight: '600', fontSize: 13 },
+  listLabel: { color: colors.text, fontFamily: font.semibold, fontSize: 13 },
   listValue: { color: colors.muted, fontSize: 13 },
   reportRow: { paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border },
   reportText: { color: colors.text, fontSize: 13, marginTop: 2 },

@@ -14,7 +14,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Field, Button, Empty } from '@/components/ui';
 import { notify, confirmDialog } from '@/lib/notify';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { FollowUpStackParamList } from '@/navigation';
 
 type Props = NativeStackScreenProps<FollowUpStackParamList, 'FollowUpDetail'>;
@@ -273,7 +273,7 @@ export default function FollowUpDetailScreen({ route }: Props) {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={styles.sectionTitle}>Assigned To</Text>
             <TouchableOpacity onPress={openAssignModal} style={styles.assignBtn}>
-              <Text style={{ color: '#fff', fontWeight: '700', fontSize: 13 }}>+ Assign</Text>
+              <Text style={{ color: '#fff', fontFamily: font.bold, fontSize: 13 }}>+ Assign</Text>
             </TouchableOpacity>
           </View>
           {assignments.length === 0 ? (
@@ -285,7 +285,7 @@ export default function FollowUpDetailScreen({ route }: Props) {
                 <Text style={styles.meta}>{a.assigned_at.slice(0, 10)}</Text>
                 {canAssign && (
                   <TouchableOpacity onPress={() => removeAssignment(a.id)} style={{ marginLeft: 8 }}>
-                    <Text style={{ color: colors.danger, fontWeight: '600' }}>✕</Text>
+                    <Text style={{ color: colors.danger, fontFamily: font.semibold }}>✕</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -364,7 +364,7 @@ export default function FollowUpDetailScreen({ route }: Props) {
                 )}
                 {entry.status && (
                   <View style={[styles.statusChip, { backgroundColor: statusColors[entry.status] ?? colors.muted }]}>
-                    <Text style={{ color: '#fff', fontSize: 10, fontWeight: '700' }}>
+                    <Text style={{ color: '#fff', fontSize: 10, fontFamily: font.bold }}>
                       {entry.status.replace(/_/g, ' ').toUpperCase()}
                     </Text>
                   </View>
@@ -375,7 +375,7 @@ export default function FollowUpDetailScreen({ route }: Props) {
               )}
               {entry.notes && <Text style={{ color: colors.text, marginTop: 6 }}>{entry.notes}</Text>}
               {entry.next_followup_date && (
-                <Text style={{ color: colors.warning, fontWeight: '600', fontSize: 12, marginTop: 4 }}>
+                <Text style={{ color: colors.warning, fontFamily: font.semibold, fontSize: 12, marginTop: 4 }}>
                   Next: {entry.next_followup_date}
                 </Text>
               )}
@@ -401,7 +401,7 @@ export default function FollowUpDetailScreen({ route }: Props) {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 }}>
               <Text style={styles.sectionTitle}>Assign to Team Member</Text>
               <TouchableOpacity onPress={() => setShowAssignModal(false)}>
-                <Text style={{ color: colors.primary, fontWeight: '600' }}>Cancel</Text>
+                <Text style={{ color: colors.primary, fontFamily: font.semibold }}>Cancel</Text>
               </TouchableOpacity>
             </View>
             <FlatList
@@ -410,7 +410,7 @@ export default function FollowUpDetailScreen({ route }: Props) {
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => assignTo(item)} style={styles.memberRow}>
                   <View>
-                    <Text style={{ fontWeight: '600', color: colors.text }}>{item.full_name}</Text>
+                    <Text style={{ fontFamily: font.semibold, color: colors.text }}>{item.full_name}</Text>
                     <Text style={styles.meta}>{item.follow_up_role?.replace(/_/g, ' ')}</Text>
                   </View>
                   <Text style={{ color: colors.primary }}>Assign →</Text>
@@ -433,7 +433,7 @@ function StatusChip({ status }: { status: string }) {
     colors.muted;
   return (
     <View style={[styles.statusChip, { backgroundColor: bg }]}>
-      <Text style={{ color: '#fff', fontSize: 11, fontWeight: '700' }}>
+      <Text style={{ color: '#fff', fontSize: 11, fontFamily: font.bold }}>
         {status.replace(/_/g, ' ').toUpperCase()}
       </Text>
     </View>
@@ -451,11 +451,11 @@ function methodEmoji(method: string) {
 }
 
 const styles = StyleSheet.create({
-  name: { fontSize: 22, fontWeight: '700', color: colors.text },
+  name: { fontSize: 22, fontFamily: font.bold, color: colors.text },
   meta: { color: colors.muted, marginTop: 2, fontSize: 13 },
   statusRow: { marginVertical: 6 },
-  sectionTitle: { fontSize: 16, fontWeight: '700', color: colors.text, marginBottom: 8 },
-  label: { fontSize: 13, fontWeight: '600', color: colors.muted, marginBottom: 6, marginTop: 4 },
+  sectionTitle: { fontSize: 16, fontFamily: font.bold, color: colors.text, marginBottom: 8 },
+  label: { fontSize: 13, fontFamily: font.semibold, color: colors.muted, marginBottom: 6, marginTop: 4 },
   pillRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 },
   pill: {
     paddingHorizontal: 12,
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     alignSelf: 'flex-start',
   },
-  entryDate: { fontWeight: '700', color: colors.text, fontSize: 14 },
+  entryDate: { fontFamily: font.bold, color: colors.text, fontSize: 14 },
   assignBtn: {
     backgroundColor: colors.primary,
     paddingHorizontal: 12,

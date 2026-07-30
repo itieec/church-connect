@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { Announcement } from '@/types';
 
 interface AnnouncementRow extends Announcement {
@@ -103,7 +103,7 @@ export default function AnnouncementsScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { fontSize: 16, fontWeight: '700', color: colors.text },
+  title: { fontSize: 16, fontFamily: font.bold, color: colors.text },
   body: { color: colors.text, marginTop: 6, lineHeight: 20 },
   meta: { color: colors.muted, fontSize: 12, marginTop: 8 },
   modalWrap: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
@@ -114,5 +114,5 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 4,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
 });

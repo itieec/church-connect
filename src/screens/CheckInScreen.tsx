@@ -4,7 +4,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { Button, Card } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 const SERVICE_TYPES = ['saturday_program', 'sunday_service', 'bible_study', 'g5', 'other'] as const;
 
@@ -124,7 +124,7 @@ export default function CheckInScreen() {
           <Text
             style={{
               color: lastResult.ok ? colors.success : colors.danger,
-              fontWeight: '700',
+              fontFamily: font.bold,
               fontSize: 16,
               textAlign: 'center',
             }}
@@ -140,7 +140,7 @@ export default function CheckInScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
-  title: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 6 },
+  title: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 6 },
   meta: { color: colors.muted, fontSize: 13, lineHeight: 19 },
   pillRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, padding: 12 },
   pill: {

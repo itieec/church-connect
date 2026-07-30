@@ -8,7 +8,7 @@ import {
   RolePermissionMap, loadRolePermissions, saveRolePermissions,
 } from '@/lib/permissions';
 import { notify } from '@/lib/notify';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 const ROLES: AppRole[] = [
   'admin', 'main_leader', 'core_team', 'team_leader', 'minister', 'member', 'newcomer',
@@ -140,12 +140,12 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: colors.border, backgroundColor: '#fff',
   },
   roleChipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  roleChipText: { fontSize: 13, fontWeight: '600', color: colors.text },
+  roleChipText: { fontSize: 13, fontFamily: font.semibold, color: colors.text },
   card: {
     backgroundColor: '#fff', borderRadius: 12, borderWidth: 1,
     borderColor: colors.border, padding: 12, marginBottom: 14,
   },
-  cardTitle: { fontSize: 14, fontWeight: '700', color: colors.text, marginBottom: 10 },
+  cardTitle: { fontSize: 14, fontFamily: font.bold, color: colors.text, marginBottom: 10 },
   permRow: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingVertical: 10, borderTopWidth: 1, borderTopColor: colors.border,
@@ -155,5 +155,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary, borderRadius: 12,
     paddingVertical: 14, alignItems: 'center', marginBottom: 20,
   },
-  saveBtnText: { color: '#fff', fontWeight: '700', fontSize: 16 },
+  saveBtnText: { color: '#fff', fontFamily: font.bold, fontSize: 16 },
 });

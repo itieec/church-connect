@@ -13,7 +13,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Field, Empty, StatusBadge, Button } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { Profile, AppRole } from '@/types';
 
 const TRAINING_ITEMS = [
@@ -239,7 +239,7 @@ export default function DirectoryScreen() {
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.row} onPress={() => openPerson(item)}>
             <View style={styles.avatar}>
-              <Text style={{ color: '#fff', fontWeight: '700' }}>
+              <Text style={{ color: '#fff', fontFamily: font.bold }}>
                 {item.full_name.slice(0, 1).toUpperCase()}
               </Text>
             </View>
@@ -288,7 +288,7 @@ export default function DirectoryScreen() {
                   </View>
                   {isLeader && (
                     <TouchableOpacity onPress={toggleBaptized} style={{ marginTop: 8 }}>
-                      <Text style={{ color: colors.primary, fontWeight: '600', fontSize: 13 }}>
+                      <Text style={{ color: colors.primary, fontFamily: font.semibold, fontSize: 13 }}>
                         {selected?.baptized ? '✝ Baptized — tap to unmark' : '✝ Mark as baptized'}
                       </Text>
                     </TouchableOpacity>
@@ -403,9 +403,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  name: { fontSize: 16, fontWeight: '600', color: colors.text },
+  name: { fontSize: 16, fontFamily: font.semibold, color: colors.text },
   meta: { fontSize: 13, color: colors.muted, marginTop: 2, textTransform: 'capitalize' },
-  sectionTitle: { fontSize: 14, fontWeight: '700', color: colors.text, marginBottom: 8 },
+  sectionTitle: { fontSize: 14, fontFamily: font.bold, color: colors.text, marginBottom: 8 },
   growthWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   growthChip: {
     paddingHorizontal: 10,
@@ -452,5 +452,5 @@ const styles = StyleSheet.create({
     padding: 24,
     maxHeight: '80%',
   },
-  modalTitle: { fontSize: 20, fontWeight: '700', color: colors.text, marginBottom: 8 },
+  modalTitle: { fontSize: 20, fontFamily: font.bold, color: colors.text, marginBottom: 8 },
 });

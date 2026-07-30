@@ -343,7 +343,7 @@ export function Avatar({ name, size = 40 }: { name: string; size?: number }) {
         { width: size, height: size, borderRadius: size / 2 },
       ]}
     >
-      <Text style={{ color: colors.primary, fontWeight: '600', fontSize: size * 0.36 }}>
+      <Text style={{ color: colors.primary, fontFamily: font.semibold, fontSize: size * 0.36 }}>
         {initials}
       </Text>
     </View>
@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
     ...type.footnote,
     color: colors.muted,
     marginBottom: spacing.xs,
-    fontWeight: '500',
+    fontFamily: font.medium,
   },
   input: {
     ...type.body,
@@ -494,8 +494,13 @@ const styles = StyleSheet.create({
   },
   segmentItem: {
     flex: 1,
+    // Without an explicit zero basis a long label pushes past its third
+    // instead of shrinking, and the last segment clips off the screen.
+    flexBasis: 0,
+    minWidth: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: spacing.xs,
     paddingVertical: spacing.sm,
     borderRadius: radius.field - 2,
     minHeight: 32,

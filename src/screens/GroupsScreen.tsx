@@ -14,7 +14,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { useUnread } from '@/lib/useUnread';
 import { Empty, Field, Button } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { G5Group, BibleStudyGroup } from '@/types';
 import { GroupsStackParamList } from '@/navigation';
 
@@ -83,7 +83,7 @@ export default function GroupsScreen({ navigation }: Props) {
               onPress={() => setKind(k)}
               style={[styles.filterPill, kind === k && styles.filterActive]}
             >
-              <Text style={{ color: kind === k ? '#fff' : colors.text, fontWeight: '600' }}>
+              <Text style={{ color: kind === k ? '#fff' : colors.text, fontFamily: font.semibold }}>
                 {label}
               </Text>
             </TouchableOpacity>
@@ -91,7 +91,7 @@ export default function GroupsScreen({ navigation }: Props) {
         </View>
         {isLeader && (
           <TouchableOpacity style={styles.addBtn} onPress={() => setShowCreate(true)}>
-            <Text style={{ color: '#fff', fontWeight: '700' }}>+ New</Text>
+            <Text style={{ color: '#fff', fontFamily: font.bold }}>+ New</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -107,7 +107,7 @@ export default function GroupsScreen({ navigation }: Props) {
             onPress={() => navigation.navigate('GroupDetail', { kind, groupId: item.id })}
           >
             <View style={[styles.avatar, { backgroundColor: kind === 'g5' ? colors.success : colors.purple }]}>
-              <Text style={{ color: '#fff', fontWeight: '700' }}>
+              <Text style={{ color: '#fff', fontFamily: font.bold }}>
                 {kind === 'g5' ? 'G5' : '📖'}
               </Text>
             </View>
@@ -120,7 +120,7 @@ export default function GroupsScreen({ navigation }: Props) {
             </View>
             {(unread.perGroup[`${kind}:${item.id}`] ?? 0) > 0 && (
               <View style={styles.unreadBadge}>
-                <Text style={{ color: '#fff', fontSize: 11, fontWeight: '700' }}>
+                <Text style={{ color: '#fff', fontSize: 11, fontFamily: font.bold }}>
                   {unread.perGroup[`${kind}:${item.id}`]}
                 </Text>
               </View>
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  name: { fontSize: 16, fontWeight: '600', color: colors.text },
+  name: { fontSize: 16, fontFamily: font.semibold, color: colors.text },
   meta: { fontSize: 12, color: colors.muted, marginTop: 2 },
   unreadBadge: {
     backgroundColor: colors.danger,
@@ -219,5 +219,5 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 8,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
 });

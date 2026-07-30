@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useI18n } from '@/lib/i18n';
 import { Card, Button, StatusBadge, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 const AGE_GROUPS = ['18-24', '25-30', '31-35', '36+'];
 
@@ -166,7 +166,7 @@ export default function ProfileScreen() {
             <Image source={{ uri: profile.photo_url }} style={styles.avatarImg} />
           ) : (
             <View style={styles.avatar}>
-              <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>
+              <Text style={{ color: '#fff', fontSize: 32, fontFamily: font.bold }}>
                 {profile.full_name.slice(0, 1).toUpperCase()}
               </Text>
             </View>
@@ -197,7 +197,7 @@ export default function ProfileScreen() {
 
       {growth.length > 0 && (
         <Card>
-          <Text style={{ fontSize: 16, fontWeight: '700', color: colors.text, marginBottom: 10 }}>
+          <Text style={{ fontSize: 16, fontFamily: font.bold, color: colors.text, marginBottom: 10 }}>
             My Growth Path
           </Text>
           <View style={styles.growthWrap}>
@@ -215,7 +215,7 @@ export default function ProfileScreen() {
 
       <Card>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text style={{ fontWeight: '700', color: colors.text }}>🌍 {t('language')}</Text>
+          <Text style={{ fontFamily: font.bold, color: colors.text }}>🌍 {t('language')}</Text>
           <View style={{ flexDirection: 'row', gap: 8 }}>
             {(
               [
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   avatarImg: { width: 80, height: 80, borderRadius: 40 },
-  name: { fontSize: 22, fontWeight: '700', color: colors.text },
+  name: { fontSize: 22, fontFamily: font.bold, color: colors.text },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -311,9 +311,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-  rowLabel: { color: colors.muted, fontWeight: '600' },
+  rowLabel: { color: colors.muted, fontFamily: font.semibold },
   rowValue: { color: colors.text, textTransform: 'capitalize' },
-  label: { fontSize: 13, fontWeight: '600', color: colors.muted, marginBottom: 6, marginTop: 4 },
+  label: { fontSize: 13, fontFamily: font.semibold, color: colors.muted, marginBottom: 6, marginTop: 4 },
   pillRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 },
   pill: {
     paddingHorizontal: 16,
@@ -342,5 +342,5 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 4,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
 });

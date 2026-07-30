@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { useAuth } from '@/context/AuthContext';
 import { Card, StatusBadge } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 /**
  * Digital member card — a QR badge leaders scan at check-in.
@@ -39,7 +39,7 @@ export default function MemberCardScreen() {
 const styles = StyleSheet.create({
   wrap: { padding: 24, alignItems: 'center', justifyContent: 'center', flexGrow: 1 },
   church: { color: colors.muted, fontSize: 12, marginTop: 4, letterSpacing: 1 },
-  name: { fontSize: 24, fontWeight: '800', color: colors.text, marginTop: 8 },
+  name: { fontSize: 24, fontFamily: font.bold, color: colors.text, marginTop: 8 },
   qrBox: {
     padding: 12,
     backgroundColor: '#fff',

@@ -14,7 +14,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { Profile, Team } from '@/types';
 import { MoreStackParamList } from '@/navigation';
 
@@ -219,7 +219,7 @@ export default function TeamDetailScreen({ route, navigation }: Props) {
           >
             <Text style={{ fontSize: 18 }}>{statusIcon}</Text>
             <View style={{ flex: 1 }}>
-              <Text style={{ fontWeight: '600', color: colors.text }}>
+              <Text style={{ fontFamily: font.semibold, color: colors.text }}>
                 {s.person?.full_name ?? '—'}
                 {mineRow ? ' (you)' : ''}
               </Text>
@@ -262,12 +262,12 @@ export default function TeamDetailScreen({ route, navigation }: Props) {
           onLongPress={() => isLeader && removeMember(m)}
         >
           <View style={styles.avatar}>
-            <Text style={{ color: '#fff', fontWeight: '700' }}>
+            <Text style={{ color: '#fff', fontFamily: font.bold }}>
               {m.person.full_name.slice(0, 1).toUpperCase()}
             </Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontWeight: '600', color: colors.text }}>{m.person.full_name}</Text>
+            <Text style={{ fontFamily: font.semibold, color: colors.text }}>{m.person.full_name}</Text>
             <Text style={{ fontSize: 12, color: colors.muted }}>
               {m.role_in_team ?? 'member'} · {m.person.status.replace('_', ' ')}
             </Text>
@@ -302,7 +302,7 @@ export default function TeamDetailScreen({ route, navigation }: Props) {
                     setRotaCandidates([]);
                   }}
                 >
-                  <Text style={{ fontWeight: '600', color: colors.text }}>{p.full_name}</Text>
+                  <Text style={{ fontFamily: font.semibold, color: colors.text }}>{p.full_name}</Text>
                 </TouchableOpacity>
               ))}
             <Field
@@ -339,7 +339,7 @@ export default function TeamDetailScreen({ route, navigation }: Props) {
               style={{ maxHeight: 260 }}
               renderItem={({ item }) => (
                 <TouchableOpacity style={styles.candidate} onPress={() => addMember(item)}>
-                  <Text style={{ fontWeight: '600', color: colors.text }}>{item.full_name}</Text>
+                  <Text style={{ fontFamily: font.semibold, color: colors.text }}>{item.full_name}</Text>
                   <Text style={{ fontSize: 12, color: colors.muted }}>
                     {item.status.replace('_', ' ')}
                   </Text>
@@ -355,11 +355,11 @@ export default function TeamDetailScreen({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  name: { fontSize: 22, fontWeight: '700', color: colors.text },
+  name: { fontSize: 22, fontFamily: font.bold, color: colors.text },
   meta: { color: colors.muted, marginTop: 2, fontSize: 13 },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: font.bold,
     color: colors.text,
     marginTop: 16,
     marginBottom: 10,
@@ -391,8 +391,8 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 8,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
-  rotaAction: { color: colors.primary, fontWeight: '700', fontSize: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
+  rotaAction: { color: colors.primary, fontFamily: font.bold, fontSize: 12 },
   candidate: {
     backgroundColor: '#fff',
     borderRadius: 10,

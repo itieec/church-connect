@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
-import { Field, Button } from '@/components/ui';
-import { colors } from '@/theme';
+import { Screen, Field, Button, SegmentedControl } from '@/components/ui';
+import { colors, type, spacing, radius, shadow } from '@/theme';
 
-const SEX_OPTIONS = ['Male', 'Female', 'Prefer not to say'] as const;
-type Sex = (typeof SEX_OPTIONS)[number];
+// Labels stay short so three segments fit a 375pt screen without clipping.
+const SEX_OPTIONS = [
+  ['male', 'Male'],
+  ['female', 'Female'],
+  ['prefer_not_to_say', 'Not specified'],
+] as const;
+
+type Sex = (typeof SEX_OPTIONS)[number][0];
 
 export default function PublicRegisterScreen() {
   const [firstName, setFirstName] = useState('');
@@ -37,7 +43,7 @@ export default function PublicRegisterScreen() {
         last_name: lastName.trim(),
         email: email.trim().toLowerCase() || null,
         phone: phone.trim() || null,
-        sex: sex === 'Prefer not to say' ? 'prefer_not_to_say' : sex?.toLowerCase() ?? null,
+        sex,
         date_of_birth: dob.trim() || null,
         address: address.trim() || null,
         first_visit_date: firstVisit || new Date().toISOString().slice(0, 10),
@@ -57,31 +63,37 @@ export default function PublicRegisterScreen() {
 
   if (done) {
     return (
-      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', padding: 32 }]}>
-        <Text style={{ fontSize: 56 }}>🎉</Text>
-        <Text style={styles.doneTitle}>Welcome, {firstName.trim()}!</Text>
+      <View style={styles.doneWrap}>
+        <Text style={styles.doneMark}>🕊</Text>
+        <Text style={styles.doneTitle}>Welcome, {firstName.trim()}</Text>
         <Text style={styles.doneText}>
-          We're so glad you're here. Someone from our Follow-Up team will reach out to you this week.
+          We're glad you're here. Someone from the follow-up team will reach out to you this week.
         </Text>
       </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ padding: 24, paddingTop: 60 }}>
-      <Text style={{ fontSize: 40, textAlign: 'center' }}>⛪</Text>
-      <Text style={styles.title}>Welcome!</Text>
-      <Text style={styles.subtitle}>We're glad you're here. Tell us a little about yourself.</Text>
+    <Screen>
+      <View style={styles.header}>
+        <Text style={styles.mark}>⛪</Text>
+        <Text style={styles.title}>Welcome</Text>
+        <Text style={styles.subtitle}>
+          Tell us a little about yourself so we can get in touch.
+        </Text>
+      </View>
 
-      <View style={{ marginTop: 24 }}>
-        <Field label="First Name *" value={firstName} onChangeText={setFirstName} placeholder="First name" />
-        <Field label="Last Name *" value={lastName} onChangeText={setLastName} placeholder="Last name" />
+      {/* Required details, grouped so the form reads as one object. */}
+      <View style={styles.group}>
+        <Field label="First name" value={firstName} onChangeText={setFirstName} placeholder="First name" />
+        <Field label="Last name" value={lastName} onChangeText={setLastName} placeholder="Last name" />
         <Field
-          label="Phone Number *"
+          label="Phone"
           value={phone}
           onChangeText={setPhone}
           keyboardType="phone-pad"
-          placeholder="+1 ..."
+          placeholder="+1 202 555 0147"
+          hint="Phone or email — whichever is easier to reach you on."
         />
         <Field
           label="Email"
@@ -90,68 +102,85 @@ export default function PublicRegisterScreen() {
           autoCapitalize="none"
           keyboardType="email-address"
           placeholder="you@example.com"
+          containerStyle={{ marginBottom: 0 }}
         />
+      </View>
 
+      <View style={styles.group}>
         <Text style={styles.label}>Sex</Text>
-        <View style={styles.row}>
-          {SEX_OPTIONS.map((s) => (
-            <TouchableOpacity
-              key={s}
-              onPress={() => setSex(s)}
-              style={[styles.pill, sex === s && styles.pillActive]}
-            >
-              <Text style={{ color: sex === s ? '#fff' : colors.text }}>{s}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <SegmentedControl
+          options={SEX_OPTIONS}
+          value={(sex ?? '') as Sex}
+          onChange={setSex}
+        />
+      </View>
 
+      {/* Everything below is optional, kept in its own group to say so. */}
+      <View style={styles.group}>
         <Field
-          label="Date of Birth (YYYY-MM-DD, optional)"
+          label="Date of birth"
           value={dob}
           onChangeText={setDob}
           placeholder="1998-01-15"
+          hint="Optional"
         />
         <Field
-          label="Address (optional)"
+          label="Address"
           value={address}
           onChangeText={setAddress}
           placeholder="123 Main St, Washington DC"
+          hint="Optional"
         />
+        <Field label="First visit" value={firstVisit} onChangeText={setFirstVisit} placeholder="2026-07-04" />
         <Field
-          label="First Visit Date"
-          value={firstVisit}
-          onChangeText={setFirstVisit}
-          placeholder="2026-07-04"
-        />
-        <Field
-          label="Prayer Request / Note (optional)"
+          label="Prayer request or note"
           value={prayerRequest}
           onChangeText={setPrayerRequest}
           multiline
-          placeholder="Anything you'd like us to pray about or know?"
+          placeholder="Anything you'd like us to pray about?"
+          containerStyle={{ marginBottom: 0 }}
         />
-
-        <Button title="Submit" onPress={register} loading={loading} />
       </View>
-    </ScrollView>
+
+      <Button title="Submit" onPress={register} loading={loading} />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg },
-  title: { fontSize: 28, fontWeight: '700', color: colors.text, textAlign: 'center', marginTop: 8 },
-  subtitle: { fontSize: 15, color: colors.muted, textAlign: 'center', marginTop: 4 },
-  label: { fontSize: 13, fontWeight: '600', color: colors.muted, marginBottom: 6 },
-  row: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 16 },
-  pill: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: '#fff',
+  header: { alignItems: 'center', marginBottom: spacing.xl, marginTop: spacing.lg },
+  mark: { fontSize: 40 },
+  title: { ...type.largeTitle, color: colors.text, marginTop: spacing.sm },
+  subtitle: {
+    ...type.subhead,
+    color: colors.muted,
+    textAlign: 'center',
+    marginTop: spacing.xs,
+    maxWidth: 280,
   },
-  pillActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  doneTitle: { fontSize: 24, fontWeight: '700', color: colors.text, marginTop: 12 },
-  doneText: { fontSize: 15, color: colors.muted, textAlign: 'center', marginTop: 8, lineHeight: 22 },
+  group: {
+    backgroundColor: colors.rowBg,
+    borderRadius: radius.card,
+    padding: spacing.lg,
+    marginBottom: spacing.lg,
+    ...shadow(1),
+  },
+  label: { ...type.footnote, color: colors.muted, marginBottom: spacing.sm },
+
+  doneWrap: {
+    flex: 1,
+    backgroundColor: colors.groupedBg,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.xxl,
+  },
+  doneMark: { fontSize: 52 },
+  doneTitle: { ...type.title, color: colors.text, marginTop: spacing.lg, textAlign: 'center' },
+  doneText: {
+    ...type.body,
+    color: colors.muted,
+    textAlign: 'center',
+    marginTop: spacing.md,
+    maxWidth: 300,
+  },
 });

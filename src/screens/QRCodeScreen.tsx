@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Image, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { Card, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 function defaultUrl(): string {
   const extra = (Constants.expoConfig?.extra ?? {}) as { publicRegistrationUrl?: string };
@@ -64,6 +64,6 @@ export default function QRCodeScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 6 },
+  title: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 6 },
   meta: { color: colors.muted, fontSize: 13, lineHeight: 19 },
 });

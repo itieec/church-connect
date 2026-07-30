@@ -12,7 +12,7 @@ import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 const TOPICS = [
   ['counseling', '💬 Counseling'],
@@ -122,7 +122,7 @@ export default function AppointmentsScreen() {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <Text style={styles.topic}>{topicLabel(a.topic)}</Text>
           <View style={[styles.status, { backgroundColor: STATUS_COLORS[a.status] }]}>
-            <Text style={{ color: '#fff', fontSize: 10, fontWeight: '700' }}>
+            <Text style={{ color: '#fff', fontSize: 10, fontFamily: font.bold }}>
               {a.status.toUpperCase()}
             </Text>
           </View>
@@ -138,7 +138,7 @@ export default function AppointmentsScreen() {
           <Text style={styles.meta}>Preferred: {a.preferred_times}</Text>
         ) : null}
         {a.scheduled_at ? (
-          <Text style={[styles.meta, { color: colors.success, fontWeight: '700' }]}>
+          <Text style={[styles.meta, { color: colors.success, fontFamily: font.bold }]}>
             📅 Scheduled: {a.scheduled_at}
             {a.handler?.full_name ? ` with ${a.handler.full_name}` : ''}
           </Text>
@@ -265,22 +265,22 @@ export default function AppointmentsScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 6 },
+  title: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 6 },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: font.bold,
     color: colors.text,
     marginTop: 16,
     marginBottom: 10,
   },
-  topic: { fontSize: 15, fontWeight: '700', color: colors.text },
+  topic: { fontSize: 15, fontFamily: font.bold, color: colors.text },
   status: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
   notes: { color: colors.text, marginTop: 6, lineHeight: 20 },
   meta: { color: colors.muted, fontSize: 12, marginTop: 4 },
   actionRow: { flexDirection: 'row', gap: 16, marginTop: 10 },
   actionBtn: { paddingVertical: 4 },
-  actionText: { color: colors.primary, fontWeight: '700', fontSize: 13 },
-  label: { fontSize: 13, fontWeight: '600', color: colors.muted, marginBottom: 6 },
+  actionText: { color: colors.primary, fontFamily: font.bold, fontSize: 13 },
+  label: { fontSize: 13, fontFamily: font.semibold, color: colors.muted, marginBottom: 6 },
   pillRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 },
   pill: {
     paddingHorizontal: 12,
@@ -299,5 +299,5 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 4,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
 });

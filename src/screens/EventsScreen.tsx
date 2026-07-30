@@ -12,7 +12,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 interface EventRow {
   id: string;
@@ -187,7 +187,7 @@ export default function EventsScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { fontSize: 17, fontWeight: '700', color: colors.text },
+  title: { fontSize: 17, fontFamily: font.bold, color: colors.text },
   meta: { color: colors.muted, fontSize: 13, marginTop: 2 },
   desc: { color: colors.text, marginTop: 6, lineHeight: 20 },
   rsvpRow: { flexDirection: 'row', gap: 8, marginTop: 10 },
@@ -208,5 +208,5 @@ const styles = StyleSheet.create({
     padding: 24,
     maxHeight: '85%',
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
 });

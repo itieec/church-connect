@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { Button, Card } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 /**
  * Shown after sign-in until an admin approves the account.
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 16,
   },
-  title: { fontSize: 22, fontWeight: '800', color: colors.text, marginTop: 10 },
+  title: { fontSize: 22, fontFamily: font.bold, color: colors.text, marginTop: 10 },
   body: { fontSize: 14, color: colors.muted, textAlign: 'center', marginTop: 10, lineHeight: 21 },
 });

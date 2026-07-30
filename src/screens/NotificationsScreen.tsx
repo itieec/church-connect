@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useUnread } from '@/lib/useUnread';
 import { navigationRef } from '@/navigation';
 import { Card, Empty } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 interface FeedItem {
   id: string;
@@ -286,6 +286,6 @@ export default function NotificationsScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { fontSize: 15, fontWeight: '700', color: colors.text },
+  title: { fontSize: 15, fontFamily: font.bold, color: colors.text },
   sub: { fontSize: 12, color: colors.muted, marginTop: 2 },
 });

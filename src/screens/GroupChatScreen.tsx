@@ -13,7 +13,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { useI18n } from '@/lib/i18n';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 export interface ChatParams {
   kind: 'g5' | 'bible_study' | 'team';
@@ -183,7 +183,7 @@ export default function GroupChatScreen({ route }: { route: { params: ChatParams
           </Text>
           {isLeader && (
             <TouchableOpacity onPress={toggleLock}>
-              <Text style={{ color: colors.primary, fontWeight: '700', fontSize: 12 }}>
+              <Text style={{ color: colors.primary, fontFamily: font.bold, fontSize: 12 }}>
                 {locked ? t('chat_unlock') : t('chat_lock')}
               </Text>
             </TouchableOpacity>
@@ -240,7 +240,7 @@ export default function GroupChatScreen({ route }: { route: { params: ChatParams
           onPress={send}
           disabled={!text.trim() || sending || !canPost}
         >
-          <Text style={{ color: '#fff', fontWeight: '700' }}>{t('chat_send')}</Text>
+          <Text style={{ color: '#fff', fontFamily: font.bold }}>{t('chat_send')}</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderBottomLeftRadius: 4,
   },
-  sender: { fontSize: 11, fontWeight: '700', color: colors.primaryLight, marginBottom: 2 },
+  sender: { fontSize: 11, fontFamily: font.bold, color: colors.primaryLight, marginBottom: 2 },
   time: { fontSize: 10, marginTop: 3, alignSelf: 'flex-end' },
   inputRow: {
     flexDirection: 'row',

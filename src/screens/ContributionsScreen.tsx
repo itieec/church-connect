@@ -14,7 +14,7 @@ import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { Profile, Contribution } from '@/types';
 
 interface ContributionRow extends Contribution {
@@ -204,7 +204,7 @@ export default function ContributionsScreen() {
           {monthRows.map((r) => (
             <Card key={r.id}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={{ fontWeight: '600', color: colors.text }}>
+                <Text style={{ fontFamily: font.semibold, color: colors.text }}>
                   {r.person?.full_name ?? 'Unknown'}
                 </Text>
                 <Text style={styles.amount}>${Number(r.amount).toFixed(2)}</Text>
@@ -255,7 +255,7 @@ export default function ContributionsScreen() {
                       setCandidates([]);
                     }}
                   >
-                    <Text style={{ fontWeight: '600', color: colors.text }}>{item.full_name}</Text>
+                    <Text style={{ fontFamily: font.semibold, color: colors.text }}>{item.full_name}</Text>
                   </TouchableOpacity>
                 )}
               />
@@ -295,8 +295,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  monthBtnText: { fontSize: 20, color: colors.primary, fontWeight: '700' },
-  monthLabel: { fontSize: 18, fontWeight: '700', color: colors.text },
+  monthBtnText: { fontSize: 20, color: colors.primary, fontFamily: font.bold },
+  monthLabel: { fontSize: 18, fontFamily: font.bold, color: colors.text },
   grid: { flexDirection: 'row', gap: 12, marginBottom: 12 },
   stat: {
     flex: 1,
@@ -307,19 +307,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
-  statValue: { fontSize: 24, fontWeight: '800', color: colors.text },
+  statValue: { fontSize: 24, fontFamily: font.bold, color: colors.text },
   statLabel: { fontSize: 11, color: colors.muted, marginTop: 2 },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: font.bold,
     color: colors.text,
     marginTop: 12,
     marginBottom: 8,
   },
   unpaidRow: { color: colors.text, fontSize: 14, paddingVertical: 3 },
-  total: { fontSize: 32, fontWeight: '800', color: colors.success, marginVertical: 4 },
+  total: { fontSize: 32, fontFamily: font.bold, color: colors.success, marginVertical: 4 },
   meta: { color: colors.muted, fontSize: 12 },
-  amount: { fontSize: 16, fontWeight: '700', color: colors.text },
+  amount: { fontSize: 16, fontFamily: font.bold, color: colors.text },
   modalWrap: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
   modal: {
     backgroundColor: colors.bg,
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 4,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
   candidate: {
     backgroundColor: '#fff',
     borderRadius: 10,

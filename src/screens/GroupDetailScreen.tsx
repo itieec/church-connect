@@ -14,7 +14,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { Profile } from '@/types';
 import { GroupsStackParamList } from '@/navigation';
 
@@ -302,12 +302,12 @@ export default function GroupDetailScreen({ route, navigation }: Props) {
           onLongPress={() => isLeader && removeMember(m)}
         >
           <View style={styles.avatar}>
-            <Text style={{ color: '#fff', fontWeight: '700' }}>
+            <Text style={{ color: '#fff', fontFamily: font.bold }}>
               {m.person.full_name.slice(0, 1).toUpperCase()}
             </Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontWeight: '600', color: colors.text }}>{m.person.full_name}</Text>
+            <Text style={{ fontFamily: font.semibold, color: colors.text }}>{m.person.full_name}</Text>
             <Text style={{ fontSize: 12, color: colors.muted }}>
               {m.person.status.replace('_', ' ')}
             </Text>
@@ -324,7 +324,7 @@ export default function GroupDetailScreen({ route, navigation }: Props) {
       {reports.length === 0 && <Empty text="No reports submitted yet." />}
       {reports.map((r) => (
         <Card key={r.id}>
-          <Text style={{ fontWeight: '700', color: colors.text }}>{r.report_date}</Text>
+          <Text style={{ fontFamily: font.bold, color: colors.text }}>{r.report_date}</Text>
           {r.attendance_count != null && (
             <Text style={styles.meta}>{r.attendance_count} attended</Text>
           )}
@@ -350,7 +350,7 @@ export default function GroupDetailScreen({ route, navigation }: Props) {
               style={{ maxHeight: 240 }}
               renderItem={({ item }) => (
                 <TouchableOpacity style={styles.candidate} onPress={() => addMember(item)}>
-                  <Text style={{ fontWeight: '600', color: colors.text }}>{item.full_name}</Text>
+                  <Text style={{ fontFamily: font.semibold, color: colors.text }}>{item.full_name}</Text>
                   <Text style={{ fontSize: 12, color: colors.muted }}>
                     {item.status.replace('_', ' ')}
                   </Text>
@@ -401,7 +401,7 @@ export default function GroupDetailScreen({ route, navigation }: Props) {
                       setLeaderCandidates([]);
                     }}
                   >
-                    <Text style={{ fontWeight: '600', color: colors.text }}>{p.full_name}</Text>
+                    <Text style={{ fontFamily: font.semibold, color: colors.text }}>{p.full_name}</Text>
                   </TouchableOpacity>
                 ))}
               <Button title="Save Changes" onPress={saveEdit} loading={saving} />
@@ -440,11 +440,11 @@ export default function GroupDetailScreen({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  name: { fontSize: 22, fontWeight: '700', color: colors.text },
+  name: { fontSize: 22, fontFamily: font.bold, color: colors.text },
   meta: { color: colors.muted, marginTop: 2, fontSize: 13 },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: font.bold,
     color: colors.text,
     marginTop: 16,
     marginBottom: 10,
@@ -476,7 +476,7 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 8,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
   candidate: {
     backgroundColor: '#fff',
     borderRadius: 10,

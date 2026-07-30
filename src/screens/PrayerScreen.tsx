@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { notify } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Card, Button, Empty, Field } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 
 interface PrayerRow {
   id: string;
@@ -103,7 +103,7 @@ export default function PrayerScreen() {
           <Text style={styles.sectionTitle}>From Follow-Up (needs prayer)</Text>
           {flags.map((f) => (
             <View key={f.id} style={styles.row}>
-              <Text style={{ fontWeight: '600', color: colors.text }}>
+              <Text style={{ fontFamily: font.semibold, color: colors.text }}>
                 {f.newcomer?.full_name ?? 'Newcomer'}
               </Text>
               <Text style={styles.meta}>
@@ -126,7 +126,7 @@ export default function PrayerScreen() {
           </Text>
           {canManage && (
             <TouchableOpacity onPress={() => markPrayed(r)} style={styles.prayedBtn}>
-              <Text style={{ color: colors.success, fontWeight: '700', fontSize: 13 }}>
+              <Text style={{ color: colors.success, fontFamily: font.bold, fontSize: 13 }}>
                 ✓ Mark as prayed
               </Text>
             </TouchableOpacity>
@@ -171,7 +171,7 @@ export default function PrayerScreen() {
 const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: font.bold,
     color: colors.text,
     marginTop: 16,
     marginBottom: 10,
@@ -187,5 +187,5 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 4,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
 });

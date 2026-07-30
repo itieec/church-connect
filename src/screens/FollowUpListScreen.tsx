@@ -12,7 +12,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { Empty } from '@/components/ui';
-import { colors } from '@/theme';
+import { colors, font } from '@/theme';
 import { FollowUpStackParamList } from '@/navigation';
 
 type Props = NativeStackScreenProps<FollowUpStackParamList, 'FollowUpList'>;
@@ -176,7 +176,7 @@ export default function FollowUpListScreen({ navigation }: Props) {
                 onPress={() => setFilter(f.key)}
                 style={[styles.filterPill, filter === f.key && styles.filterActive]}
               >
-                <Text style={{ color: filter === f.key ? '#fff' : colors.text, fontWeight: '600' }}>
+                <Text style={{ color: filter === f.key ? '#fff' : colors.text, fontFamily: font.semibold }}>
                   {f.label}
                 </Text>
               </TouchableOpacity>
@@ -188,7 +188,7 @@ export default function FollowUpListScreen({ navigation }: Props) {
             style={styles.addBtn}
             onPress={() => navigation.navigate('NewcomerRegistration')}
           >
-            <Text style={{ color: '#fff', fontWeight: '700' }}>+ New</Text>
+            <Text style={{ color: '#fff', fontFamily: font.bold }}>+ New</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -214,7 +214,7 @@ export default function FollowUpListScreen({ navigation }: Props) {
             onPress={() => navigation.navigate('FollowUpDetail', { newComerId: item.id })}
           >
             <View style={styles.avatar}>
-              <Text style={{ color: '#fff', fontWeight: '700' }}>
+              <Text style={{ color: '#fff', fontFamily: font.bold }}>
                 {item.first_name.slice(0, 1).toUpperCase()}
               </Text>
             </View>
@@ -242,7 +242,7 @@ function StatusPill({ status }: { status: string }) {
   const { bg, label } = map[status] ?? { bg: colors.muted, label: status.toUpperCase() };
   return (
     <View style={[styles.statusPill, { backgroundColor: bg }]}>
-      <Text style={{ color: '#fff', fontSize: 9, fontWeight: '700' }}>{label}</Text>
+      <Text style={{ color: '#fff', fontSize: 9, fontFamily: font.bold }}>{label}</Text>
     </View>
   );
 }
@@ -250,7 +250,7 @@ function StatusPill({ status }: { status: string }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
   noAccess: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32, backgroundColor: colors.bg },
-  noAccessTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginTop: 12, textAlign: 'center' },
+  noAccessTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginTop: 12, textAlign: 'center' },
   noAccessSub: { color: colors.muted, marginTop: 8, textAlign: 'center', lineHeight: 22 },
   topBar: {
     flexDirection: 'row',
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  name: { fontSize: 16, fontWeight: '600', color: colors.text },
+  name: { fontSize: 16, fontFamily: font.semibold, color: colors.text },
   meta: { fontSize: 12, color: colors.muted, marginTop: 2 },
   statusPill: {
     borderRadius: 999,
