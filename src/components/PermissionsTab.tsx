@@ -137,12 +137,12 @@ const styles = StyleSheet.create({
   roleScroll: { marginBottom: 14 },
   roleChip: {
     paddingHorizontal: 14, paddingVertical: 8, borderRadius: 999,
-    borderWidth: 1, borderColor: colors.border, backgroundColor: '#fff',
+    borderWidth: 1, borderColor: colors.border, backgroundColor: colors.card,
   },
   roleChipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
   roleChipText: { fontSize: 13, fontFamily: font.semibold, color: colors.text },
   card: {
-    backgroundColor: '#fff', borderRadius: 12, borderWidth: 1,
+    backgroundColor: colors.card, borderRadius: 12, borderWidth: 1,
     borderColor: colors.border, padding: 12, marginBottom: 14,
   },
   cardTitle: { fontSize: 14, fontFamily: font.bold, color: colors.text, marginBottom: 10 },

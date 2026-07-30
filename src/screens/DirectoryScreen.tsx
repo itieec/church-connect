@@ -13,7 +13,7 @@ import { supabase } from '@/lib/supabase';
 import { notify, confirmDialog } from '@/lib/notify';
 import { useAuth } from '@/context/AuthContext';
 import { Field, Empty, StatusBadge, Button } from '@/components/ui';
-import { colors, font } from '@/theme';
+import { colors, font, type, spacing, radius, hairline, touchTarget, shadow } from '@/theme';
 import { Profile, AppRole } from '@/types';
 
 const TRAINING_ITEMS = [
@@ -383,74 +383,78 @@ export default function DirectoryScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg },
+  container: { flex: 1, backgroundColor: colors.groupedBg },
+  // Elevation instead of a border — a card outlined *and* shadowed reads as
+  // two competing edges.
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: colors.border,
-    gap: 12,
+    backgroundColor: colors.card,
+    borderRadius: radius.card,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+    minHeight: touchTarget,
+    gap: spacing.md,
+    ...shadow(1),
   },
   avatar: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.primaryLight,
+    // Squircle rather than a circle — softer, and less of a default look.
+    borderRadius: 13,
+    backgroundColor: colors.primary + '14',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  name: { fontSize: 16, fontFamily: font.semibold, color: colors.text },
-  meta: { fontSize: 13, color: colors.muted, marginTop: 2, textTransform: 'capitalize' },
-  sectionTitle: { fontSize: 14, fontFamily: font.bold, color: colors.text, marginBottom: 8 },
-  growthWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  name: { ...type.callout, fontFamily: font.semibold, color: colors.text },
+  meta: { ...type.footnote, color: colors.muted, marginTop: 2, textTransform: 'capitalize' },
+  sectionTitle: { ...type.headline, color: colors.text, marginBottom: spacing.sm },
+
+  growthWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   growthChip: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: '#fff',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs + 1,
+    borderRadius: radius.pill,
+    backgroundColor: colors.fill,
   },
-  growthChipDone: { backgroundColor: colors.success, borderColor: colors.success },
-  timelineRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 5 },
-  timelineDate: { width: 86, fontSize: 11, color: colors.muted },
+  growthChipDone: { backgroundColor: colors.success },
+
+  timelineRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.xs + 1 },
+  timelineDate: { width: 86, ...type.caption, color: colors.muted },
   timelineDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: colors.primaryLight,
-    marginRight: 8,
+    backgroundColor: colors.accent,
+    marginRight: spacing.sm,
   },
-  timelineLabel: { flex: 1, fontSize: 13, color: colors.text },
+  timelineLabel: { flex: 1, ...type.subhead, color: colors.text },
+
   trainingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    gap: spacing.md,
+    paddingVertical: spacing.md,
+    borderBottomWidth: hairline,
+    borderBottomColor: colors.separator,
   },
-  roleWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+
+  roleWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   rolePill: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: '#fff',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.pill,
+    backgroundColor: colors.fill,
   },
-  rolePillActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  modalWrap: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
+  rolePillActive: { backgroundColor: colors.primary },
+
+  modalWrap: { flex: 1, backgroundColor: 'rgba(18,33,59,0.45)', justifyContent: 'flex-end' },
   modal: {
-    backgroundColor: colors.bg,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 24,
+    backgroundColor: colors.groupedBg,
+    borderTopLeftRadius: radius.card + 10,
+    borderTopRightRadius: radius.card + 10,
+    padding: spacing.xl,
     maxHeight: '80%',
   },
-  modalTitle: { fontSize: 20, fontFamily: font.bold, color: colors.text, marginBottom: 8 },
+  modalTitle: { ...type.title2, color: colors.text, marginBottom: spacing.sm },
 });

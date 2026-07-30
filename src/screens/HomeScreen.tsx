@@ -12,7 +12,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { Card, StatusBadge } from '@/components/ui';
-import { colors, font } from '@/theme';
+import { colors, font, type, spacing, radius, hairline, shadow, tabular } from '@/theme';
 
 interface Stats {
   newcomers: number;
@@ -221,7 +221,7 @@ export default function HomeScreen() {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={styles.sectionTitle}>🗓 Upcoming Events</Text>
             <Text
-              style={{ color: colors.primary, fontFamily: font.semibold, fontSize: 13 }}
+              style={styles.seeAll}
               onPress={() => navigation.navigate('More', { screen: 'Events', initial: false })}
             >
               See all ›
@@ -233,8 +233,8 @@ export default function HomeScreen() {
               style={styles.annRow}
               onPress={() => navigation.navigate('More', { screen: 'Events', initial: false })}
             >
-              <Text style={{ fontFamily: font.bold, color: colors.text }}>{ev.title}</Text>
-              <Text style={{ color: colors.muted, fontSize: 13, marginTop: 2 }}>
+              <Text style={styles.annTitle}>{ev.title}</Text>
+              <Text style={styles.annMeta}>
                 {ev.event_date}
                 {ev.event_time ? ` · ${ev.event_time}` : ''}
                 {ev.location ? ` · ${ev.location}` : ''}
@@ -249,7 +249,7 @@ export default function HomeScreen() {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={styles.sectionTitle}>📢 Announcements</Text>
             <Text
-              style={{ color: colors.primary, fontFamily: font.semibold, fontSize: 13 }}
+              style={styles.seeAll}
               onPress={() =>
                 navigation.navigate('More', { screen: 'Announcements', initial: false })
               }
@@ -259,13 +259,13 @@ export default function HomeScreen() {
           </View>
           {announcements.map((a) => (
             <View key={a.id} style={styles.annRow}>
-              <Text style={{ fontFamily: font.bold, color: colors.text }}>{a.title}</Text>
+              <Text style={styles.annTitle}>{a.title}</Text>
               {a.body ? (
-                <Text style={{ color: colors.muted, fontSize: 13 }} numberOfLines={2}>
+                <Text style={styles.annMeta} numberOfLines={2}>
                   {a.body}
                 </Text>
               ) : null}
-              <Text style={{ color: colors.muted, fontSize: 11, marginTop: 2 }}>
+              <Text style={styles.annMeta}>
                 {new Date(a.created_at).toLocaleDateString()}
               </Text>
             </View>
@@ -290,11 +290,11 @@ export default function HomeScreen() {
           )}
           {stale.map((s) => (
             <TouchableOpacity key={s.id} style={styles.staleRow} onPress={() => openNewcomer(s.id)}>
-              <Text style={{ flex: 1, color: colors.text, fontFamily: font.semibold }}>
+              <Text style={styles.staleName}>
                 {s.full_name}
                 {s.mine ? '  (yours)' : ''}
               </Text>
-              <Text style={{ color: colors.danger, fontSize: 12, fontFamily: font.bold }}>
+              <Text style={styles.staleAge}>
                 {s.daysSince == null ? 'never followed up' : `${s.daysSince}d ago`}
               </Text>
             </TouchableOpacity>
@@ -323,12 +323,8 @@ export default function HomeScreen() {
 
       <Card>
         <Text style={styles.sectionTitle}>📍 Find Us</Text>
-        <Text style={{ color: colors.text, fontFamily: font.semibold, marginBottom: 2 }}>
-          7930 Eastern Avenue NW
-        </Text>
-        <Text style={{ color: colors.muted, fontSize: 13, marginBottom: 4 }}>
-          Washington, DC 20012 · Sun 6:00 PM
-        </Text>
+        <Text style={styles.address}>7930 Eastern Avenue NW</Text>
+        <Text style={styles.addressMeta}>Washington, DC 20012 · Sun 6:00 PM</Text>
         <ChurchMap />
       </Card>
     </ScrollView>
@@ -345,53 +341,74 @@ function StatCard({ label, value, color }: { label: string; value: number; color
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg },
-  greeting: { fontSize: 20, fontFamily: font.bold, color: colors.text },
-  roleText: { color: colors.muted, marginTop: 8, textTransform: 'capitalize' },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 12 },
+  container: { flex: 1, backgroundColor: colors.groupedBg },
+  greeting: { ...type.title2, color: colors.text },
+  roleText: { ...type.subhead, color: colors.muted, marginTop: spacing.sm, textTransform: 'capitalize' },
+
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md, marginBottom: spacing.md },
   stat: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: colors.card,
+    borderRadius: radius.card,
+    padding: spacing.lg,
     width: '47%',
-    borderLeftWidth: 4,
-    borderWidth: 1,
-    borderColor: colors.border,
+    // Colour is carried by a leading rule rather than a full border, so the
+    // tile reads as one surface instead of a boxed-in card.
+    borderLeftWidth: 3,
+    ...shadow(1),
   },
-  statValue: { fontSize: 28, fontFamily: font.bold, color: colors.text },
-  statLabel: { fontSize: 12, color: colors.muted, marginTop: 2 },
-  sectionTitle: { fontSize: 16, fontFamily: font.bold, color: colors.text, marginBottom: 8 },
-  alertLine: { color: colors.text, fontSize: 13, marginBottom: 4 },
+  // Tabular figures keep the four stat tiles aligned as the counts change.
+  statValue: { ...type.title, ...tabular, color: colors.text },
+  statLabel: { ...type.caption, color: colors.muted, marginTop: 2 },
+
+  sectionTitle: { ...type.headline, color: colors.text, marginBottom: spacing.sm },
+  seeAll: { ...type.footnote, color: colors.primary },
+  alertLine: { ...type.subhead, color: colors.text, marginBottom: spacing.xs },
+
   annRow: {
-    paddingVertical: 8,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
+    paddingVertical: spacing.md,
+    borderTopWidth: hairline,
+    borderTopColor: colors.separator,
   },
+  annTitle: { ...type.callout, fontFamily: font.semibold, color: colors.text },
+  annMeta: { ...type.footnote, color: colors.muted, marginTop: 2 },
+
   quickGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
-    marginBottom: 12,
+    gap: spacing.md,
+    marginBottom: spacing.md,
   },
   quickTile: {
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: colors.border,
+    backgroundColor: colors.card,
+    borderRadius: radius.card,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 14,
-    width: '22.7%',
+    paddingVertical: spacing.lg,
+    width: '22.4%',
     minWidth: 76,
+    ...shadow(1),
   },
-  quickLabel: { fontSize: 11, fontFamily: font.semibold, color: colors.text, marginTop: 4 },
+  quickLabel: {
+    ...type.caption,
+    fontFamily: font.semibold,
+    color: colors.text,
+    marginTop: spacing.xs,
+  },
+
   staleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
+    paddingVertical: spacing.md,
+    borderTopWidth: hairline,
+    borderTopColor: colors.separator,
+    gap: spacing.sm,
   },
-  journey: { color: colors.text, lineHeight: 22 },
-  vision: { color: colors.muted, fontStyle: 'italic', marginTop: 12 },
+  staleName: { flex: 1, ...type.callout, fontFamily: font.semibold, color: colors.text },
+  staleAge: { ...type.caption, fontFamily: font.semibold, color: colors.danger },
+
+  journey: { ...type.body, color: colors.text },
+  vision: { ...type.subhead, color: colors.muted, fontStyle: 'italic', marginTop: spacing.md },
+
+  address: { ...type.callout, fontFamily: font.semibold, color: colors.text, marginBottom: 2 },
+  addressMeta: { ...type.footnote, color: colors.muted, marginBottom: spacing.sm },
 });

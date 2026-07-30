@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   name: { fontSize: 24, fontFamily: font.bold, color: colors.text, marginTop: 8 },
   qrBox: {
     padding: 12,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,

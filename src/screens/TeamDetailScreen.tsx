@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   memberRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 12,
     marginBottom: 8,
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
   modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
   rotaAction: { color: colors.primary, fontFamily: font.bold, fontSize: 12 },
   candidate: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderRadius: 10,
     padding: 12,
     marginBottom: 6,

@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.border,
     alignItems: 'center',
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   grid: { flexDirection: 'row', gap: 12, marginBottom: 12 },
   stat: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 14,
     borderLeftWidth: 4,
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: { fontSize: 18, fontFamily: font.bold, color: colors.text, marginBottom: 12 },
   candidate: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderRadius: 10,
     padding: 12,
     marginBottom: 6,

@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
   },
   pillActive: { backgroundColor: colors.primary, borderColor: colors.primary },
 });

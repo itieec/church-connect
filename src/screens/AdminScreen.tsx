@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
   },
   tabActive: { backgroundColor: colors.primary, borderColor: colors.primary },
   hint: { color: colors.muted, fontSize: 12, marginBottom: 8 },
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 12,
     marginBottom: 8,
