@@ -1,0 +1,13 @@
+[build]
+  command = "npx expo export --platform web"
+  publish = "dist"
+
+[build.environment]
+  # Expo/React-Native deps need legacy peer resolution (see AGENTS.md / README).
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# SPA fallback so client-side routes (e.g. /register) resolve to the app.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
